@@ -129,7 +129,7 @@ impl Editor {
                     return Ok(());
                 }
                 self.should_quit = true
-            },
+            }
             Key::Ctrl('s') => self.save(),
             Key::Char(c) =>  { 
                 self.document.insert(&self.cursor_position, c);
@@ -255,10 +255,7 @@ impl Editor {
         let height = self.terminal.size().height;
         for terminal_row in 0..height {
             Terminal::clear_current_line();
-            if let Some(row) = self
-                .document
-                .row(self.offset.y.saturating_add(terminal_row as usize)) 
-            {
+            if let Some(row) = self.document.row(self.offset.y.saturating_add(terminal_row as usize)) {
                 self.draw_row(row);
             } else if self.document.is_empty() && terminal_row == height / 3 {
                 self.draw_welcome_message();
@@ -288,9 +285,7 @@ impl Editor {
         );
         #[allow(clippy::integer_arithmetic)]
         let len = status.len() + line_indicator.len();
-       
         status.push_str(&" ".repeat(width.saturating_sub(len)));
-        
         status = format!("{}{}", status, line_indicator);
         status.truncate(width);
         Terminal::set_bg_color(STATUS_BG_COLOR);
